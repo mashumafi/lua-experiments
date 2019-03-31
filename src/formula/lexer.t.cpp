@@ -3,7 +3,7 @@
 #include "lexer.h"
 
 TEST_CASE("Lexer", "nextToken") {
-	std::string_view view = "  hello  world123 (  )( 444,3.14 .14 3. 123abc 1.a 1.2a 2.7  ;  ";
+	std::string_view view = "  hello  world123 (  )( 444,3.14 .14 3. 123abc 1.a 1.2a 2.7  ;  \" test \" ' test ' ' invalid ";
 	Lexer lexer(view);
 	auto iter = std::cbegin(lexer);
 
@@ -20,7 +20,7 @@ TEST_CASE("Lexer", "nextToken") {
 	iter++;
 	REQUIRE(iter->getType() == Token::TYPE_LPAREN);
 	REQUIRE(iter->getOffset() == 18);
-	
+
 	iter++;
 	REQUIRE(iter->getType() == Token::TYPE_RPAREN);
 	REQUIRE(iter->getOffset() == 21);
@@ -47,7 +47,7 @@ TEST_CASE("Lexer", "nextToken") {
 	REQUIRE(iter->getType() == Token::TYPE_REAL);
 	REQUIRE(std::string(iter->getString()) == ".14");
 	REQUIRE(iter->getOffset() == 33);
-	
+
 	iter++;
 	REQUIRE(iter->getType() == Token::TYPE_REAL);
 	REQUIRE(std::string(iter->getString()) == "3.");
@@ -79,10 +79,25 @@ TEST_CASE("Lexer", "nextToken") {
 	REQUIRE(iter->getOffset() == 61);
 
 	iter++;
-	REQUIRE(iter->getType() == Token::TYPE_END);
+	REQUIRE(iter->getType() == Token::TYPE_STRING);
+	REQUIRE(std::string(iter->getString()) == " test ");
 	REQUIRE(iter->getOffset() == 64);
 
 	iter++;
+	REQUIRE(iter->getType() == Token::TYPE_STRING);
+	REQUIRE(std::string(iter->getString()) == " test ");
+	REQUIRE(iter->getOffset() == 73);
+
+	iter++;
+	REQUIRE(iter->getType() == Token::TYPE_INVALID);
+	REQUIRE(std::string(iter->getString()) == " invalid ");
+	REQUIRE(iter->getOffset() == 82);
+
+	iter++;
 	REQUIRE(iter->getType() == Token::TYPE_END);
-	REQUIRE(iter->getOffset() == 64);
+	REQUIRE(iter->getOffset() == 92);
+
+	iter++;
+	REQUIRE(iter->getType() == Token::TYPE_END);
+	REQUIRE(iter->getOffset() == 92);
 }

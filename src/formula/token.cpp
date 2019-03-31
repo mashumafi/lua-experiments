@@ -21,7 +21,6 @@ std::unordered_map<std::string_view, Token::Type> g_types = {
 
 Token::Token()
 {
-	m_type = Token::TYPE_NONE;
 }
 
 Token::Token(std::string_view string, std::string_view::size_type offset)
@@ -36,49 +35,36 @@ Token::Token(std::string_view string, std::string_view::size_type offset)
 	m_offset = offset;
 }
 
+Token::Token(Type type, std::string_view::size_type offset, std::string_view string)
+{
+	m_type = type;
+	m_offset = offset;
+	m_string = string;
+}
 
 Token Token::real_type(std::string_view string, std::string_view::size_type offset)
 {
-	Token tkn;
-	tkn.m_string = string;
-	tkn.m_offset = offset;
-	tkn.m_type = TYPE_REAL;
-	return tkn;
+	return Token(TYPE_REAL, offset, string);
 }
 
 Token Token::int_type(std::string_view string, std::string_view::size_type offset)
 {
-	Token tkn;
-	tkn.m_string = string;
-	tkn.m_offset = offset;
-	tkn.m_type = TYPE_INT;
-	return tkn;
+	return Token(TYPE_INT, offset, string);
 }
 
 Token Token::string_type(std::string_view string, std::string_view::size_type offset)
 {
-	Token tkn;
-	tkn.m_string = string;
-	tkn.m_offset = offset;
-	tkn.m_type = TYPE_STRING;
-	return tkn;
+	return Token(TYPE_STRING, offset, string);
 }
 
 Token Token::invalid_type(std::string_view string, std::string_view::size_type offset)
 {
-	Token tkn;
-	tkn.m_string = string;
-	tkn.m_offset = offset;
-	tkn.m_type = TYPE_INVALID;
-	return tkn;
+	return Token(TYPE_INVALID, offset, string);
 }
 
 Token Token::end_type(std::string_view::size_type offset)
 {
-	Token tkn;
-	tkn.m_offset = offset;
-	tkn.m_type = TYPE_END;
-	return tkn;
+	return Token(TYPE_END, offset);
 }
 
 Token::~Token()

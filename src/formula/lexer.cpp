@@ -65,7 +65,22 @@ void Lexer::const_iterator::nextToken()
 				// special character
 				end = start + 1;
 				m_token = Token(m_data.substr(start - std::cbegin(m_data), end - start), offset);
-				if (m_token.getType() == Token::TYPE_ID)
+				if (m_token.getType() == Token::TYPE_QUOTE || m_token.getType() == Token::TYPE_APOS)
+				{
+					start++;
+					end = std::find(start, std::cend(m_data), m_token.getString()[0]);
+					std::prev(end);
+					if (end == std::cend(m_data))
+					{
+						m_token = Token::invalid_type(m_data.substr(start - std::cbegin(m_data), end - start), offset);
+					}
+					else
+					{
+						m_token = Token::string_type(m_data.substr(start - std::cbegin(m_data), end - start), offset);
+						end++;
+					}
+				}
+				else if (m_token.getType() == Token::TYPE_ID)
 				{
 					m_token = Token::invalid_type(m_token.getString(), offset);
 				}

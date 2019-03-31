@@ -53,9 +53,11 @@ public:
 	}
 
 private:
+	Token(Type type, std::string_view::size_type offset = 0, std::string_view string = std::string_view());
+
+	Type m_type = TYPE_NONE;
+	std::string_view::size_type m_offset = 0;
 	std::string_view m_string;
-	std::string_view::size_type m_offset;
-	Type m_type;
 };
 
 #endif // !TOKEN
