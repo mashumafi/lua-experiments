@@ -4,6 +4,8 @@
 #include <string>
 #include <variant>
 
+using real = float;
+
 class Datum
 {
 public:
@@ -11,13 +13,27 @@ public:
 	virtual ~Datum();
 
 	Datum(uint64_t);
+	Datum(real);
 	Datum(const std::string& data);
 
 	void setUInt(uint64_t data);
 	uint64_t getUInt() const;
 
+	void setReal(real data);
+	real getReal() const;
+
 	void setString(const std::string& data);
 	std::string getString() const;
+
+	operator uint64_t() const
+	{
+		return getUInt();
+	}
+
+	operator std::string() const
+	{
+		return getString();
+	}
 
 	Datum operator +(const Datum& other) const
 	{
@@ -47,13 +63,48 @@ public:
 		return result;
 	}
 
+	bool operator ==(uint64_t other) const
+	{
+		return other == getUInt();
+	}
+
 	bool operator ==(const std::string& other) const
 	{
 		return other == getString();
 	}
 
+	bool operator !=(uint64_t other) const
+	{
+		return other != getUInt();
+	}
+
+	bool operator !=(const std::string& other) const
+	{
+		return other != getString();
+	}
+
+	bool operator <(uint64_t other) const
+	{
+		return other < getUInt();
+	}
+
+	bool operator <(const std::string& other) const
+	{
+		return other < getString();
+	}
+
+	bool operator <=(uint64_t other) const
+	{
+		return other <= getUInt();
+	}
+
+	bool operator <=(const std::string& other) const
+	{
+		return other <= getString();
+	}
+
 private:
-	std::variant<std::string, uint64_t> m_data;
+	std::variant<std::string, uint64_t, real> m_data;
 };
 
 #endif // !DATUM

@@ -13,6 +13,11 @@ Datum::Datum(uint64_t data)
 	setUInt(data);
 }
 
+Datum::Datum(real data)
+{
+	setReal(data);
+}
+
 Datum::Datum(const std::string& data)
 {
 	setString(data);
@@ -29,7 +34,37 @@ uint64_t Datum::getUInt() const
 	{
 		return *data;
 	}
+	else if (const real *data = std::get_if<real>(&m_data))
+	{
+		return *data;
+	}
+	else if (const std::string *data = std::get_if<std::string>(&m_data))
+	{
+		return std::stoul(*data);
+	}
 	return 0;
+}
+
+void Datum::setReal(real data)
+{
+	m_data = data;
+}
+
+real Datum::getReal() const
+{
+	if (const real *data = std::get_if<real>(&m_data))
+	{
+		return *data;
+	}
+	else if (const uint64_t *data = std::get_if<uint64_t>(&m_data))
+	{
+		return *data;
+	}
+	else if (const std::string *data = std::get_if<std::string>(&m_data))
+	{
+		return std::stof(*data);
+	}
+	return 0.f;
 }
 
 void Datum::setString(const std::string& data)
@@ -42,6 +77,14 @@ std::string Datum::getString() const
 	if (const std::string *data = std::get_if<std::string>(&m_data))
 	{
 		return *data;
+	}
+	else if (const real *data = std::get_if<real>(&m_data))
+	{
+		return std::to_string(*data);
+	}
+	else if (const uint64_t *data = std::get_if<uint64_t>(&m_data))
+	{
+		return std::to_string(*data);
 	}
 	return "";
 }
