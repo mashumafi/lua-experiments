@@ -27,7 +27,7 @@ Token::Token(std::string_view string, std::string_view::size_type offset)
 {
 	auto type = g_types.find(string);
 	if (type == std::cend(g_types)) {
-		m_type = TYPE_ID;
+		m_type = TYPE_UNKNOWN;
 	} else {
 		m_type = type->second;
 	}

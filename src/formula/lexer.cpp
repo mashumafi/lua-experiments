@@ -88,7 +88,7 @@ void Lexer::const_iterator::nextToken()
 						end++;
 					}
 				}
-				else if (m_token.getType() == Token::TYPE_ID)
+				else if (m_token.getType() == Token::TYPE_UNKNOWN)
 				{
 					m_token = Token::invalid_type(m_token.getString(), offset);
 				}

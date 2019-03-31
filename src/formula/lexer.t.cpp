@@ -7,13 +7,16 @@ TEST_CASE("Lexer", "nextToken") {
 	Lexer lexer(view);
 	auto iter = std::cbegin(lexer);
 
+	bool isnone = *iter == Token();
+	REQUIRE(isnone);
+
 	iter++;
-	REQUIRE(iter->getType() == Token::TYPE_ID);
+	REQUIRE(iter->getType() == Token::TYPE_UNKNOWN);
 	REQUIRE(std::string(iter->getString()) == "hello");
 	REQUIRE(iter->getOffset() == 2);
 
 	iter++;
-	REQUIRE(iter->getType() == Token::TYPE_ID);
+	REQUIRE(iter->getType() == Token::TYPE_UNKNOWN);
 	REQUIRE(std::string(iter->getString()) == "world123");
 	REQUIRE(iter->getOffset() == 9);
 
@@ -100,4 +103,7 @@ TEST_CASE("Lexer", "nextToken") {
 	iter++;
 	REQUIRE(iter->getType() == Token::TYPE_END);
 	REQUIRE(iter->getOffset() == 95);
+
+	bool isend = std::cend(lexer) == iter;
+	REQUIRE(isend);
 }
