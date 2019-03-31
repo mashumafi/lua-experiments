@@ -3,7 +3,7 @@
 #include "lexer.h"
 
 TEST_CASE("Lexer", "nextToken") {
-	std::string_view view = "  hello  world123 (  )( 444,3.14 .14 3. 123abc 1.a 1.2a 2.7  ;  \" test \" ' test ' ' invalid ";
+	std::string_view view = "  hello  world123 (  )( 444,3.14 .14 3. 123abc 1.a 1.2a 2.7  ;  \" test \" ' test ' ' invalid \\' ";
 	Lexer lexer(view);
 	auto iter = std::cbegin(lexer);
 
@@ -90,14 +90,14 @@ TEST_CASE("Lexer", "nextToken") {
 
 	iter++;
 	REQUIRE(iter->getType() == Token::TYPE_INVALID);
-	REQUIRE(std::string(iter->getString()) == " invalid ");
+	REQUIRE(std::string(iter->getString()) == " invalid \\' ");
 	REQUIRE(iter->getOffset() == 82);
 
 	iter++;
 	REQUIRE(iter->getType() == Token::TYPE_END);
-	REQUIRE(iter->getOffset() == 92);
+	REQUIRE(iter->getOffset() == 95);
 
 	iter++;
 	REQUIRE(iter->getType() == Token::TYPE_END);
-	REQUIRE(iter->getOffset() == 92);
+	REQUIRE(iter->getOffset() == 95);
 }
