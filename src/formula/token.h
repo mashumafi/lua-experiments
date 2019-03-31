@@ -33,7 +33,7 @@ public:
 
 	Token();
 	Token(std::string_view token, std::string_view::size_type offset);
-	~Token();
+	virtual ~Token();
 
 	static Token real_type(std::string_view string, std::string_view::size_type offset);
 	static Token int_type(std::string_view string, std::string_view::size_type offset);

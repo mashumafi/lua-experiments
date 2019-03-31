@@ -2,7 +2,8 @@
 
 #include "lexer.h"
 
-TEST_CASE("Lexer", "nextToken") {
+TEST_CASE("Lexer", "nextToken")
+{
 	std::string_view view = "  hello  world123 (  )( 444,3.14 .14 3. 123abc 1.a 1.2a 2.7  ;  \" test \" ' test ' ' invalid \\' ";
 	Lexer lexer(view);
 	auto iter = std::cbegin(lexer);

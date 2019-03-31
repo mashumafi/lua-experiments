@@ -1,4 +1,6 @@
-add_library(formula lexer.h
+add_library(formula datum.h
+                    datum.cpp
+                    lexer.h
                     lexer.cpp
                     parser.h
                     parser.cpp
@@ -12,7 +14,8 @@ set_target_properties(formula PROPERTIES
     CXX_EXTENSIONS NO
 )
 
-add_executable(formula_test lexer.t.cpp
+add_executable(formula_test datum.t.cpp
+                            lexer.t.cpp
                             parser.t.cpp
                             token.t.cpp
 )

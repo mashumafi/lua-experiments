@@ -33,7 +33,7 @@ public:
 	};
 
 	Lexer(std::string_view data);
-	~Lexer();
+	virtual ~Lexer();
 
 	const_iterator begin() const;
 	const_iterator end() const;

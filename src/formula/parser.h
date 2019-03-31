@@ -7,7 +7,7 @@ class Parser
 {
 public:
 	Parser(Lexer& lexer);
-	~Parser();
+	virtual ~Parser();
 
 private:
 	Lexer& m_lexer;
