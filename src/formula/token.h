@@ -12,9 +12,11 @@ public:
 		TYPE_INVALID,
 		TYPE_LPAREN,
 		TYPE_RPAREN,
+		TYPE_LBRACKET,
+		TYPE_RBRACKET,
+		TYPE_BANG,
 		TYPE_QUOTE,
 		TYPE_APOS,
-		TYPE_PERIOD,
 		TYPE_COMMA,
 		TYPE_INT,
 		TYPE_REAL,
@@ -26,20 +28,22 @@ public:
 		TYPE_MULT,
 		TYPE_DIV,
 		TYPE_END,
+		TYPE_SUM,
 	};
 
 	Token();
-	Token(std::string_view token);
+	Token(std::string_view token, std::string_view::size_type offset);
 	~Token();
 
-	static Token real_type(std::string_view string);
-	static Token int_type(std::string_view string);
-	static Token string_type(std::string_view string);
-	static Token invalid_type(std::string_view string);
-	static Token end_type();
+	static Token real_type(std::string_view string, std::string_view::size_type offset);
+	static Token int_type(std::string_view string, std::string_view::size_type offset);
+	static Token string_type(std::string_view string, std::string_view::size_type offset);
+	static Token invalid_type(std::string_view string, std::string_view::size_type offset);
+	static Token end_type(std::string_view::size_type offset);
 
 	const std::string_view &getString() const;
 	Type getType() const;
+	std::string_view::size_type getOffset() const;
 
 	bool operator==(const Token& rhs) {
 		return m_type == rhs.m_type && m_string == rhs.m_string;
@@ -50,6 +54,7 @@ public:
 
 private:
 	std::string_view m_string;
+	std::string_view::size_type m_offset;
 	Type m_type;
 };
 

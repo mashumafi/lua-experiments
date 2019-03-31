@@ -27,6 +27,7 @@ public:
 		bool operator!=(const self_type& rhs) { return m_token != rhs.m_token; }
 	private:
 		std::string_view m_data;
+		std::string_view::size_type m_pos = 0;
 		Token m_token;
 		void nextToken();
 	};

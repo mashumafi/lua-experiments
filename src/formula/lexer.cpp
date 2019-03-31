@@ -3,6 +3,7 @@
 #include <cctype>
 #include <algorithm>
 #include <functional>
+#include <unordered_set>
 
 Lexer::Lexer(std::string_view data)
 {
@@ -13,49 +14,72 @@ Lexer::~Lexer()
 {
 }
 
+int issep(int c) {
+	static const std::unordered_set<int> valid = { ',', ')' };
+	return valid.find(c) != std::cend(valid) || std::isspace(c);
+}
+
 void Lexer::const_iterator::nextToken()
 {
 	// find first not-space
-	auto start = std::find_if(std::cbegin(m_data), std::cend(m_data), std::not_fn(std::isspace));
+	auto begin = std::cbegin(m_data) + m_pos;
+	auto start = std::find_if(begin, std::cend(m_data), std::not_fn(std::isspace));
+	const std::string_view::size_type offset = start - std::cbegin(m_data);
 	// is it an id
 	auto end = std::find_if(start, std::cend(m_data), std::not_fn(std::isalpha));
-	if (start != end)
+	if (start != m_data.cend())
 	{
-		// we found some alpha, see if there are numbers
-		end = std::find_if(end, std::cend(m_data), std::not_fn(std::isdigit));
-		m_token = Token(m_data.substr(start - std::cbegin(m_data), end - start));
-	}
-	else
-	{
-		//could be a number
-		end = std::find_if(end, std::cend(m_data), std::not_fn(std::isdigit));
-		if (start != end || *end == '.') {
-			// could be a real
-			if (*end == '.')
-			{
-				end++;
-				// get decimal
-				end = std::find_if(end, std::cend(m_data), std::not_fn(std::isdigit));
-				m_token = Token::real_type(m_data.substr(start - std::cbegin(m_data), end - start));
+		if (start != end)
+		{
+			// we found some alpha, see if there are numbers
+			end = std::find_if(end, std::cend(m_data), std::not_fn(std::isdigit));
+			m_token = Token(m_data.substr(start - std::cbegin(m_data), end - start), offset);
+		}
+		else
+		{
+			//could be a number
+			end = std::find_if(end, std::cend(m_data), std::not_fn(std::isdigit));
+			if (start != end || *end == '.') {
+				// could be a real
+				if (*end == '.')
+				{
+					end++;
+					// get decimal
+					end = std::find_if(end, std::cend(m_data), std::not_fn(std::isdigit));
+					m_token = Token::real_type(m_data.substr(start - std::cbegin(m_data), end - start), offset);
+				}
+				else
+				{
+					m_token = Token::int_type(m_data.substr(start - std::cbegin(m_data), end - start), offset);
+				}
+				// check for invalid, make sure seperator is after
+				auto invalid = std::find_if(end, std::cend(m_data), issep);
+				if (invalid != end)
+				{
+					end = invalid;
+					m_token = Token::invalid_type(m_data.substr(start - std::cbegin(m_data), end - start), offset);
+				}
 			}
 			else
 			{
-				m_token = Token::int_type(m_data.substr(start - std::cbegin(m_data), end - start));
-			}
-			// check for invalid, alpha not allowed after
-			auto invalid = std::find_if(start, std::cend(m_data), std::not_fn(std::isalpha));
-			if (invalid != end)
-			{
-				end = invalid;
-				m_token = Token::invalid_type(m_data.substr(start - std::cbegin(m_data), end - start));
+				// special character
+				end = start + 1;
+				m_token = Token(m_data.substr(start - std::cbegin(m_data), end - start), offset);
+				if (m_token.getType() == Token::TYPE_ID)
+				{
+					m_token = Token::invalid_type(m_token.getString(), offset);
+				}
 			}
 		}
 	}
 	if (start == m_data.cend())
 	{
-		m_token = Token::end_type();
+		m_token = Token::end_type(offset);
 	}
-	m_data = m_data.substr(end - std::cbegin(m_data), std::cend(m_data) - end);
+	else
+	{
+		m_pos = end - std::cbegin(m_data);
+	}
 }
 
 Lexer::const_iterator Lexer::begin() const
@@ -65,5 +89,5 @@ Lexer::const_iterator Lexer::begin() const
 
 Lexer::const_iterator Lexer::end() const
 {
-	return Lexer::const_iterator(&Token::end_type());
+	return Lexer::const_iterator(&Token::end_type(m_data.length()));
 }
