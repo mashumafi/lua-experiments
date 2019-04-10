@@ -9,11 +9,21 @@ TEST_CASE("datum +")
 		Datum str("Hello");
 		WHEN("add int datum")
 		{
-			Datum i = 123u;
+			Datum i;
+			i.setUInt(123u);
 			Datum sum = str + i;
 			THEN("should be concatenated")
 			{
 				REQUIRE(sum == "Hello123");
+			}
+		}
+		WHEN("add real datum")
+		{
+			Datum f = 1.23;
+			Datum sum = str + f;
+			THEN("should be concatenated")
+			{
+				REQUIRE(sum == "Hello1.230000");
 			}
 		}
 	}
