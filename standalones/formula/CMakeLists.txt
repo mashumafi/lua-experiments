@@ -15,7 +15,7 @@ add_executable(formula_test test/datum.t.cpp
                             test/parser.t.cpp
                             test/token.t.cpp
 )
-target_link_libraries(formula_test PRIVATE catch formula)
+target_link_libraries(formula_test PRIVATE m_catch2 formula)
 set_target_properties(formula_test PROPERTIES
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED YES
