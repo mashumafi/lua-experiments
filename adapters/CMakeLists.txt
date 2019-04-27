@@ -1,1 +1,1 @@
-add_subdirectory(catch)
+add_subdirectory(m_catch2)
