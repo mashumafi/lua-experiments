@@ -1,5 +1,0 @@
-name: 'Update cmake'
-description: 'Update cmake'
-author: 'mashumafi'
-runs:
-  main: 'apt-get update -y && apt-get install -y'

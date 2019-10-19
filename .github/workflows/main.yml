@@ -9,7 +9,7 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - uses: ./.github/actions/update_cmake
+    - uses: ./
     - name: cmake
       run: cmake .
     - name: build
