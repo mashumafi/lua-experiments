@@ -2,6 +2,7 @@
 #define SQLITE_STATEMENT_INCLUDED
 
 #include <string_view>
+#include <tuple>
 
 struct sqlite3;
 struct sqlite3_stmt;
