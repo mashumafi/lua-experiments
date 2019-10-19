@@ -9,7 +9,7 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - uses: popperized/cmake@master
+    - uses: .github/actions/update_cmake
     - name: cmake
       run: cmake .
     - name: build
