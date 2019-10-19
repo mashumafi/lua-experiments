@@ -1,5 +1,5 @@
 FROM alpine:3.10.2
-RUN apk add --no-cache cmake
+RUN apk add --no-cache cmake g++ make
 
 ADD * /workspace/
 WORKDIR /workspace
