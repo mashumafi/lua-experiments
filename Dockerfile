@@ -5,5 +5,5 @@ WORKDIR /build
 
 ADD * /workspace/
 RUN cmake /workspace
-RUN make
+RUN make -j40
 RUN make test

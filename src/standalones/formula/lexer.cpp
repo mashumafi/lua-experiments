@@ -5,6 +5,22 @@
 #include <functional>
 #include <unordered_set>
 
+namespace wrapper
+{
+bool isspace(int c)
+{
+	return std::isspace(c);
+}
+bool isalpha(int c)
+{
+	return std::isalpha(c);
+}
+bool isdigit(int c)
+{
+	return std::isdigit(c);
+}
+} // namespace
+
 Lexer::Lexer(std::string_view data)
 {
 	m_data = data;
@@ -14,38 +30,40 @@ Lexer::~Lexer()
 {
 }
 
-int issep(int c) {
-	static const std::unordered_set<int> valid = { ',', ')' };
-	return valid.find(c) != std::cend(valid) || std::isspace(c);
+int issep(int c)
+{
+	static const std::unordered_set<int> valid = {',', ')'};
+	return valid.find(c) != std::cend(valid) || wrapper::isspace(c);
 }
 
 void Lexer::const_iterator::nextToken()
 {
 	// find first not-space
 	auto begin = std::cbegin(m_data) + m_pos;
-	auto start = std::find_if(begin, std::cend(m_data), std::not_fn(std::isspace));
+	auto start = std::find_if(begin, std::cend(m_data), std::not_fn(wrapper::isspace));
 	const std::string_view::size_type offset = start - std::cbegin(m_data);
 	// is it an id
-	auto end = std::find_if(start, std::cend(m_data), std::not_fn(std::isalpha));
+	auto end = std::find_if(start, std::cend(m_data), std::not_fn(wrapper::isalpha));
 	if (start != m_data.cend())
 	{
 		if (start != end)
 		{
 			// we found some alpha, see if there are numbers
-			end = std::find_if(end, std::cend(m_data), std::not_fn(std::isdigit));
+			end = std::find_if(end, std::cend(m_data), std::not_fn(wrapper::isdigit));
 			m_token = Token(m_data.substr(start - std::cbegin(m_data), end - start), offset);
 		}
 		else
 		{
 			//could be a number
-			end = std::find_if(end, std::cend(m_data), std::not_fn(std::isdigit));
-			if (start != end || *end == '.') {
+			end = std::find_if(end, std::cend(m_data), std::not_fn(wrapper::isdigit));
+			if (start != end || *end == '.')
+			{
 				// could be a real
 				if (*end == '.')
 				{
 					end++;
 					// get decimal
-					end = std::find_if(end, std::cend(m_data), std::not_fn(std::isdigit));
+					end = std::find_if(end, std::cend(m_data), std::not_fn(wrapper::isdigit));
 					m_token = Token::real_type(m_data.substr(start - std::cbegin(m_data), end - start), offset);
 				}
 				else
@@ -112,5 +130,5 @@ Lexer::const_iterator Lexer::begin() const
 
 Lexer::const_iterator Lexer::end() const
 {
-	return Lexer::const_iterator(&Token::end_type(m_data.length()));
+	return Lexer::const_iterator(Token::end_type(m_data.length()));
 }

@@ -4,9 +4,19 @@
 #include "lua_state.h"
 
 #include <functional>
+#include <tuple>
 
 namespace lua
 {
+
+template <class T>
+inline bool is(State &state, int idx);
+
+template <class T>
+inline T argument(State &state, int idx);
+
+template <class T>
+inline bool argument(State &state, int idx, T &value);
 
 template <class T>
 class Iterator
@@ -80,26 +90,17 @@ public:
     }
 };
 
-template <class T>
-inline bool is(State &state, int idx);
-
 template <>
 inline bool is<double>(State &state, int idx)
 {
     return state.isnumber(idx);
 }
 
-template <class T>
-inline T argument(State &state, int idx);
-
 template <>
 inline double argument(State &state, int idx)
 {
     return state.tonumber(idx);
 }
-
-template <class T>
-inline bool argument(State &state, int idx, T &value);
 
 template <>
 inline bool argument(State &state, int idx, double &value)
@@ -127,20 +128,20 @@ inline bool argument(State &state, int idx, Variadic<double> &value)
     return true;
 }
 
-inline int result(State &state, double value)
+inline int result(State &state, const double &value)
 {
     state.push(value);
     return 1;
 }
 
 template <std::size_t I = 0, class... Tp>
-inline typename std::enable_if<I == sizeof...(Tp), int>::type result(State &state, std::tuple<Tp...> &t)
+inline typename std::enable_if<I == sizeof...(Tp), int>::type result(State &state, const std::tuple<Tp...> &t)
 {
     return 0;
 }
 
 template <std::size_t I = 0, class... Tp>
-    inline typename std::enable_if < I<sizeof...(Tp), int>::type result(State &state, std::tuple<Tp...> &t)
+    inline typename std::enable_if < I<sizeof...(Tp), int>::type result(State &state, const std::tuple<Tp...> &t)
 {
     state.push(std::get<I>(t));
     return result<I + 1, Tp...>(state, t) + 1;
@@ -168,8 +169,7 @@ template <class F, class... T>
 inline int arguments(State &state, F func)
 {
     std::tuple<T...> args;
-    bool success = set(state, args);
-    if (success)
+    if (set(state, args))
     {
         return result(state, std::apply(func, args));
     }

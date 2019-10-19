@@ -17,7 +17,7 @@ public:
 		using pointer = Token*;
 		using difference_type = int;
 		using iterator_category = std::forward_iterator_tag;
-		const_iterator(pointer ptr) : m_token(*ptr) { }
+		const_iterator(value_type token) : m_token(token) { }
 		const_iterator(std::string_view data) : m_data(data) { }
 		self_type operator++() { self_type i = *this; nextToken(); return i; }
 		self_type operator++(int junk) { nextToken(); return *this; }
