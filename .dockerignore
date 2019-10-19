@@ -1,0 +1,8 @@
+.exe
+.github
+.vscode
+build
+
+.dockerignore
+.gitignore
+Dockerfile
