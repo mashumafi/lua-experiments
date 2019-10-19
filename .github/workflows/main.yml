@@ -1,4 +1,4 @@
-name: C/C++ CI
+name: main
 
 on: [push]
 
@@ -9,6 +9,7 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
+    - uses: popperized/cmake@master
     - name: cmake
       run: cmake .
     - name: build
