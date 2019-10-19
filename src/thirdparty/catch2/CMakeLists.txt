@@ -7,3 +7,5 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(Catch2)
+
+set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${Catch2_SOURCE_DIR}/contrib" CACHE STRING "Modules for CMake" FORCE)

@@ -22,4 +22,6 @@ set_target_properties(formula_test PROPERTIES
     CXX_EXTENSIONS NO
 )
 
-add_test(formula_test formula_test)
+include(CTest)
+include(ParseAndAddCatchTests)
+ParseAndAddCatchTests(formula_test)
