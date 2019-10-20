@@ -135,7 +135,7 @@ inline int result(State &state, const double &value)
 }
 
 template <std::size_t I = 0, class... Tp>
-inline typename std::enable_if<I == sizeof...(Tp), int>::type result(State &state, const std::tuple<Tp...> &t)
+inline typename std::enable_if<I == sizeof...(Tp), int>::type result(State &, const std::tuple<Tp...> &)
 {
     return 0;
 }
@@ -148,7 +148,7 @@ template <std::size_t I = 0, class... Tp>
 }
 
 template <std::size_t I = 0, class... Tp>
-inline typename std::enable_if<I == sizeof...(Tp), bool>::type set(State &state, std::tuple<Tp...> &t)
+inline typename std::enable_if<I == sizeof...(Tp), bool>::type set(State &, std::tuple<Tp...> &)
 {
     return true;
 }

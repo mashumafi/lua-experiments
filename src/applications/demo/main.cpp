@@ -96,7 +96,7 @@ void sqlite_test()
     }
 }
 
-int main(int argc, char *argv[])
+int main(int, char **)
 {
     lua_test();
     sqlite_test();

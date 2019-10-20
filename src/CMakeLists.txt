@@ -1,4 +1,5 @@
 add_subdirectory(thirdparty)
+list(APPEND CMAKE_MODULE_PATH "${Catch2_SOURCE_DIR}/contrib")
 add_subdirectory(adapters)
 add_subdirectory(standalones)
 add_subdirectory(applications)

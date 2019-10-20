@@ -17,7 +17,7 @@ template <class T>
 T column(sqlite3_stmt *stmt, int col);
 
 template <std::size_t I = 0, class... Tp>
-inline typename std::enable_if<I == sizeof...(Tp), void>::type columns(sqlite3_stmt *stmt, std::tuple<Tp...> &t)
+inline typename std::enable_if<I == sizeof...(Tp), void>::type columns(sqlite3_stmt *, std::tuple<Tp...> &)
 {
 }
 

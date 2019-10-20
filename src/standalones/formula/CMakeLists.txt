@@ -4,11 +4,8 @@ add_library(formula datum.cpp
                     token.cpp
 )
 target_include_directories(formula PUBLIC .)
-set_target_properties(formula PROPERTIES
-    CXX_STANDARD 17
-    CXX_STANDARD_REQUIRED YES
-    CXX_EXTENSIONS NO
-)
+include(Compile)
+target_compile(formula)
 
 add_executable(formula_test datum.t.cpp
                             lexer.t.cpp
@@ -16,11 +13,7 @@ add_executable(formula_test datum.t.cpp
                             token.t.cpp
 )
 target_link_libraries(formula_test PRIVATE a_catch formula)
-set_target_properties(formula_test PROPERTIES
-    CXX_STANDARD 17
-    CXX_STANDARD_REQUIRED YES
-    CXX_EXTENSIONS NO
-)
+target_compile(formula_test)
 
 include(Catch)
 catch_discover_tests(formula_test)

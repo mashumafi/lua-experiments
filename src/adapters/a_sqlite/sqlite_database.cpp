@@ -24,6 +24,9 @@ Database::Database(std::string_view filename) : m_db(nullptr)
 Database::~Database()
 {
     int rc = sqlite3_close(m_db);
+    if (rc != SQLITE_OK)
+    {
+    }
 }
 
 int callback(void *, int, char **, char **)

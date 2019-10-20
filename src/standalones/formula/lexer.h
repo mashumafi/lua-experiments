@@ -13,18 +13,28 @@ public:
 	public:
 		using self_type = const_iterator;
 		using value_type = Token;
-		using reference = Token&;
-		using pointer = Token*;
+		using reference = Token &;
+		using pointer = Token *;
 		using difference_type = int;
 		using iterator_category = std::forward_iterator_tag;
-		const_iterator(value_type token) : m_token(token) { }
-		const_iterator(std::string_view data) : m_data(data) { }
-		self_type operator++() { self_type i = *this; nextToken(); return i; }
-		self_type operator++(int junk) { nextToken(); return *this; }
-		const reference operator*() { return m_token; }
-		const pointer operator->() { return &m_token; }
-		bool operator==(const self_type& rhs) { return m_token == rhs.m_token; }
-		bool operator!=(const self_type& rhs) { return m_token != rhs.m_token; }
+		const_iterator(value_type token) : m_token(token) {}
+		const_iterator(std::string_view data) : m_data(data) {}
+		self_type operator++()
+		{
+			self_type i = *this;
+			nextToken();
+			return i;
+		}
+		self_type operator++(int)
+		{
+			nextToken();
+			return *this;
+		}
+		reference operator*() { return m_token; }
+		pointer operator->() { return &m_token; }
+		bool operator==(const self_type &rhs) { return m_token == rhs.m_token; }
+		bool operator!=(const self_type &rhs) { return m_token != rhs.m_token; }
+
 	private:
 		std::string_view m_data;
 		std::string_view::size_type m_pos = 0;
