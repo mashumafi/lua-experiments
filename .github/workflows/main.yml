@@ -8,18 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v1
-    - name: download
-      uses: actions/download-artifact@master
-      with:
-        name: build-artifact
-        path: build
+    - name: checkout
+      uses: actions/checkout@v1
+
     - name: build
-      uses: ./
+      uses: .
       with:
         args: -v .:/build
-    - name: upload
-      uses: actions/upload-artifact@master
-      with:
-        name: build-artifact
-        path: build
