@@ -9,5 +9,17 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - uses: ./
-      name: Docker
+    - name: download
+      uses: actions/download-artifact@master
+      with:
+        name: build-artifact
+        path: build
+    - name: build
+      uses: ./
+      with:
+        args: -v .:/build
+    - name: upload
+      uses: actions/upload-artifact@master
+      with:
+        name: build-artifact
+        path: build
