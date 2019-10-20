@@ -14,6 +14,5 @@ add_executable(formula_test datum.t.cpp
 )
 target_link_libraries(formula_test PRIVATE a_catch formula)
 target_compile(formula_test)
-
 include(Catch)
 catch_discover_tests(formula_test)

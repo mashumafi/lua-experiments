@@ -1,5 +1,11 @@
 add_library(a_lua lua_state.cpp)
 target_include_directories(a_lua PUBLIC .)
-target_link_libraries(a_lua PRIVATE lua5)
+target_link_libraries(a_lua PRIVATE lua)
 include(Compile)
 target_compile(a_lua)
+
+add_executable(a_lua_test lua_bind.t.cpp)
+target_link_libraries(a_lua_test PRIVATE a_catch a_lua)
+target_compile(a_lua_test)
+include(Catch)
+catch_discover_tests(a_lua_test)

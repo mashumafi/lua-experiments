@@ -1,3 +1,3 @@
-add_subdirectory(catch2)
-add_subdirectory(lua5)
-add_subdirectory(sqlite3)
+add_subdirectory(catch)
+add_subdirectory(lua)
+add_subdirectory(sqlite)

@@ -9,7 +9,7 @@ FetchContent_Declare(
 FetchContent_GetProperties(lua)
 if(NOT lua_POPULATED)
     FetchContent_Populate(lua)
-    add_library(lua5 ${lua_SOURCE_DIR}/lapi.c
+    add_library(lua ${lua_SOURCE_DIR}/lapi.c
                      ${lua_SOURCE_DIR}/lauxlib.c
                      ${lua_SOURCE_DIR}/lbaselib.c
                      ${lua_SOURCE_DIR}/lbitlib.c
@@ -45,5 +45,5 @@ if(NOT lua_POPULATED)
                      ${lua_SOURCE_DIR}/lvm.c
                      ${lua_SOURCE_DIR}/lzio.c
                 )
-    target_include_directories(lua5 PUBLIC ${lua_SOURCE_DIR})
+    target_include_directories(lua PUBLIC ${lua_SOURCE_DIR})
 endif()

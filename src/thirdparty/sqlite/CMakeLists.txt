@@ -9,6 +9,6 @@ FetchContent_Declare(
 FetchContent_GetProperties(sqlite)
 if(NOT sqlite_POPULATED)
     FetchContent_Populate(sqlite)
-    add_library(sqlite3 ${sqlite_SOURCE_DIR}/sqlite3.c)
-    target_include_directories(sqlite3 PUBLIC ${sqlite_SOURCE_DIR})
+    add_library(sqlite ${sqlite_SOURCE_DIR}/sqlite3.c)
+    target_include_directories(sqlite PUBLIC ${sqlite_SOURCE_DIR})
 endif()
