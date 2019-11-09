@@ -18,7 +18,7 @@ Datum::Datum(real data)
 	setReal(data);
 }
 
-Datum::Datum(const std::string& data)
+Datum::Datum(const std::string &data)
 {
 	setString(data);
 }
@@ -30,17 +30,17 @@ void Datum::setUInt(uint64_t data)
 
 uint64_t Datum::getUInt() const
 {
-	if (const uint64_t *data = std::get_if<uint64_t>(&m_data))
+	if (const uint64_t *idata = std::get_if<uint64_t>(&m_data))
 	{
-		return *data;
+		return *idata;
 	}
-	else if (const real *data = std::get_if<real>(&m_data))
+	else if (const real *rdata = std::get_if<real>(&m_data))
 	{
-		return static_cast<uint64_t>(*data);
+		return static_cast<uint64_t>(*rdata);
 	}
-	else if (const std::string *data = std::get_if<std::string>(&m_data))
+	else if (const std::string *sdata = std::get_if<std::string>(&m_data))
 	{
-		return std::stoul(*data);
+		return std::stoul(*sdata);
 	}
 	return 0;
 }
@@ -52,39 +52,39 @@ void Datum::setReal(real data)
 
 real Datum::getReal() const
 {
-	if (const real *data = std::get_if<real>(&m_data))
+	if (const real *rdata = std::get_if<real>(&m_data))
 	{
-		return *data;
+		return *rdata;
 	}
-	else if (const uint64_t *data = std::get_if<uint64_t>(&m_data))
+	else if (const uint64_t *idata = std::get_if<uint64_t>(&m_data))
 	{
-		return static_cast<real>(*data);
+		return static_cast<real>(*idata);
 	}
-	else if (const std::string *data = std::get_if<std::string>(&m_data))
+	else if (const std::string *sdata = std::get_if<std::string>(&m_data))
 	{
-		return std::stof(*data);
+		return std::stof(*sdata);
 	}
 	return 0.f;
 }
 
-void Datum::setString(const std::string& data)
+void Datum::setString(const std::string &data)
 {
 	m_data = data;
 }
 
 std::string Datum::getString() const
 {
-	if (const std::string *data = std::get_if<std::string>(&m_data))
+	if (const std::string *sdata = std::get_if<std::string>(&m_data))
 	{
-		return *data;
+		return *sdata;
 	}
-	else if (const real *data = std::get_if<real>(&m_data))
+	else if (const real *rdata = std::get_if<real>(&m_data))
 	{
-		return std::to_string(*data);
+		return std::to_string(*rdata);
 	}
-	else if (const uint64_t *data = std::get_if<uint64_t>(&m_data))
+	else if (const uint64_t *idata = std::get_if<uint64_t>(&m_data))
 	{
-		return std::to_string(*data);
+		return std::to_string(*idata);
 	}
 	return "";
 }

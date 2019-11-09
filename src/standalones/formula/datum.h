@@ -14,7 +14,7 @@ public:
 
 	Datum(uint64_t);
 	Datum(real);
-	Datum(const std::string& data);
+	Datum(const std::string &data);
 
 	void setUInt(uint64_t data);
 	uint64_t getUInt() const;
@@ -22,7 +22,7 @@ public:
 	void setReal(real data);
 	real getReal() const;
 
-	void setString(const std::string& data);
+	void setString(const std::string &data);
 	std::string getString() const;
 
 	operator uint64_t() const
@@ -35,52 +35,52 @@ public:
 		return getString();
 	}
 
-	Datum operator +(const Datum& other) const
+	Datum operator+(const Datum &other) const
 	{
 		Datum result;
-		if (const std::string *lhs = std::get_if<std::string>(&m_data))
+		if (const std::string *slhs = std::get_if<std::string>(&m_data))
 		{
-			if (const std::string *rhs = std::get_if<std::string>(&other.m_data))
+			if (const std::string *srhs = std::get_if<std::string>(&other.m_data))
 			{
-				result.setString(*lhs + *rhs);
+				result.setString(*slhs + *srhs);
 			}
-			else if (const uint64_t *rhs = std::get_if<uint64_t>(&other.m_data))
+			else if (const uint64_t *irhs = std::get_if<uint64_t>(&other.m_data))
 			{
-				result.setString(*lhs + std::to_string(*rhs));
+				result.setString(*slhs + std::to_string(*irhs));
 			}
-			else if (const real *rhs = std::get_if<real>(&other.m_data))
+			else if (const real *rrhs = std::get_if<real>(&other.m_data))
 			{
-				result.setString(*lhs + std::to_string(*rhs));
+				result.setString(*slhs + std::to_string(*rrhs));
 			}
 		}
-		else if (const uint64_t *lhs = std::get_if<uint64_t>(&m_data))
+		else if (const uint64_t *ilhs = std::get_if<uint64_t>(&m_data))
 		{
-			if (const std::string *rhs = std::get_if<std::string>(&other.m_data))
+			if (const std::string *srhs = std::get_if<std::string>(&other.m_data))
 			{
-				result.setString(std::to_string(*lhs) + *rhs);
+				result.setString(std::to_string(*ilhs) + *srhs);
 			}
-			else if (const real *rhs = std::get_if<real>(&other.m_data))
+			else if (const real *rrhs = std::get_if<real>(&other.m_data))
 			{
-				result.setReal(*lhs + *rhs);
+				result.setReal(*ilhs + *rrhs);
 			}
-			else if (const uint64_t *rhs = std::get_if<uint64_t>(&other.m_data))
+			else if (const uint64_t *irhs = std::get_if<uint64_t>(&other.m_data))
 			{
-				result.setUInt(*lhs + *rhs);
+				result.setUInt(*ilhs + *irhs);
 			}
 		}
-		else if (const real *lhs = std::get_if<real>(&m_data))
+		else if (const real *rlhs = std::get_if<real>(&m_data))
 		{
-			if (const real *rhs = std::get_if<real>(&other.m_data))
+			if (const real *rrhs = std::get_if<real>(&other.m_data))
 			{
-				result.setReal(*lhs + *rhs);
+				result.setReal(*rlhs + *rrhs);
 			}
-			else if (const uint64_t *rhs = std::get_if<uint64_t>(&other.m_data))
+			else if (const uint64_t *irhs = std::get_if<uint64_t>(&other.m_data))
 			{
-				result.setUInt(*lhs + *rhs);
+				result.setUInt(static_cast<uint64_t>(*rlhs + *irhs));
 			}
-			else if (const std::string *rhs = std::get_if<std::string>(&other.m_data))
+			else if (const std::string *srhs = std::get_if<std::string>(&other.m_data))
 			{
-				result.setString(std::to_string(*lhs) + *rhs);
+				result.setString(std::to_string(*rlhs) + *srhs);
 			}
 		}
 		return result;
@@ -91,42 +91,42 @@ public:
 		return m_data.index() != 0;
 	}
 
-	bool operator ==(uint64_t other) const
+	bool operator==(uint64_t other) const
 	{
 		return other == getUInt();
 	}
 
-	bool operator ==(const std::string& other) const
+	bool operator==(const std::string &other) const
 	{
 		return other == getString();
 	}
 
-	bool operator !=(uint64_t other) const
+	bool operator!=(uint64_t other) const
 	{
 		return other != getUInt();
 	}
 
-	bool operator !=(const std::string& other) const
+	bool operator!=(const std::string &other) const
 	{
 		return other != getString();
 	}
 
-	bool operator <(uint64_t other) const
+	bool operator<(uint64_t other) const
 	{
 		return other < getUInt();
 	}
 
-	bool operator <(const std::string& other) const
+	bool operator<(const std::string &other) const
 	{
 		return other < getString();
 	}
 
-	bool operator <=(uint64_t other) const
+	bool operator<=(uint64_t other) const
 	{
 		return other <= getUInt();
 	}
 
-	bool operator <=(const std::string& other) const
+	bool operator<=(const std::string &other) const
 	{
 		return other <= getString();
 	}

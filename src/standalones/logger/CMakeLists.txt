@@ -1,0 +1,5 @@
+add_library(logger logger.cpp)
+target_include_directories(logger PUBLIC .)
+target_link_libraries(logger PRIVATE singleton)
+include(Compile)
+target_compile(logger)

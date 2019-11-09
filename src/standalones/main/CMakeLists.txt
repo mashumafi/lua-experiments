@@ -1,0 +1,5 @@
+add_library(main main.cpp)
+target_include_directories(main PUBLIC .)
+target_link_libraries(main PRIVATE singleton)
+include(Compile)
+target_compile(main)

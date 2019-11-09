@@ -72,6 +72,22 @@
         "xstddef": "cpp",
         "xtr1common": "cpp",
         "xtree": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "resumable": "cpp",
+        "xthread": "cpp",
+        "*.ipp": "cpp",
+        "hash_map": "cpp",
+        "typeindex": "cpp",
+        "any": "cpp",
+        "codecvt": "cpp",
+        "complex": "cpp",
+        "cwctype": "cpp",
+        "execution": "cpp",
+        "filesystem": "cpp",
+        "forward_list": "cpp",
+        "hash_set": "cpp",
+        "memory_resource": "cpp",
+        "queue": "cpp",
+        "shared_mutex": "cpp"
     }
 }

@@ -1,6 +1,3 @@
 add_subdirectory(catch)
 add_subdirectory(lua)
 add_subdirectory(sqlite)
-add_subdirectory(boost_config)
-add_subdirectory(boost_static_assert)
-add_subdirectory(boost_type_traits)

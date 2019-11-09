@@ -1,3 +1,12 @@
+#include <allocator.h>
+#include <default_allocator.h>
+#include <system_allocator.h>
+#include <logger.h>
+#include <lua_bind.h>
+#include <lua_state.h>
+#include <main.h>
+#include <sqlite_database.h>
+
 #include <array>
 #include <iostream>
 #include <functional>
@@ -5,10 +14,6 @@
 #include <streambuf>
 #include <string>
 #include <tuple>
-
-#include <lua_bind.h>
-#include <lua_state.h>
-#include <sqlite_database.h>
 
 static int average(lua::State &state)
 {
@@ -92,14 +97,33 @@ void sqlite_test()
     }
     else
     {
-        std::cout << __LINE__ << " " << db.errmsg() << std::endl;
+        std::cout << db.errmsg() << std::endl;
     }
 }
 
-int main(int, char **)
+void logger_test()
+{
+    logger::Logger::Scoped scopedLog;
+    logger::Logger::Instance *log = logger::Logger::instance();
+    log->print("Hello world!");
+}
+
+void allocator_test()
+{
+    allocator::SystemAllocator allocator;
+    allocator::DefaultAllocator::Scoped scopedAllocator(&allocator);
+
+    allocator::DefaultAllocator::Instance *defaultAllocator = allocator::DefaultAllocator::instance();
+    void *mem = defaultAllocator->malloc(1000);
+    defaultAllocator->free(mem);
+}
+
+int Main::Instance::main()
 {
     lua_test();
     sqlite_test();
+    logger_test();
+    allocator_test();
 
     return 0;
 }

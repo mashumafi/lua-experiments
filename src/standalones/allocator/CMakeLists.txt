@@ -1,0 +1,5 @@
+add_library(allocator system_allocator.cpp)
+target_include_directories(allocator PUBLIC .)
+target_link_libraries(allocator PRIVATE singleton)
+include(Compile)
+target_compile(allocator)

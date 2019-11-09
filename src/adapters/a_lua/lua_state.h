@@ -26,6 +26,7 @@ public:
 
     int loadfile(std::string_view name);
     int dofile(std::string_view name);
+    int dostring(std::string_view s);
 
     void bind(std::string_view name, Function fn);
 

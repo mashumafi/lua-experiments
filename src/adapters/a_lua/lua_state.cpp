@@ -43,6 +43,12 @@ int State::dofile(std::string_view name)
 	return luaL_dofile(m_state, name.data());
 }
 
+int State::dostring(std::string_view s)
+{
+	luaL_dostring(m_state, s.data());
+	return 0;
+}
+
 void State::bind(std::string_view name, Function fn)
 {
 	Bindings::iterator binding = d_bindings.find(m_state);
