@@ -9,7 +9,7 @@ TEST_CASE("Create a memory database", "[a_sqlite_database]") {
   a_sqlite::Database db(":memory:");
 }
 
-TEST_CASE("", "[a_sqlite_database]") {
+TEST_CASE("Insert and select data", "[a_sqlite_database]") {
   a_sqlite::Database db(std::string_view(":memory:"));
   std::string_view tail;
 
@@ -20,7 +20,7 @@ TEST_CASE("", "[a_sqlite_database]") {
 
   a_sqlite::Statement stmtInsertRow(db, "INSERT INTO demo VALUES (?);", tail);
   REQUIRE(tail.empty());
-  REQUIRE(stmtInsertRow.bindDouble(1, 1.25) == SQLITE_OK);
+  REQUIRE(stmtInsertRow.bind(1, 1.25) == SQLITE_OK);
   REQUIRE(stmtInsertRow.step() == SQLITE_DONE);
 
   a_sqlite::Statement stmtSelect(db, "select col1 from demo;", tail);
@@ -28,4 +28,9 @@ TEST_CASE("", "[a_sqlite_database]") {
   REQUIRE(stmtSelect.step() == SQLITE_ROW);
   REQUIRE(stmtSelect.columnDouble(0) == 1.25);
   REQUIRE(stmtSelect.step() == SQLITE_DONE);
+}
+
+TEST_CASE("Read and write CSV with header", "[a_sqlite_database]") {
+  a_sqlite::Database db(std::string_view(":memory:"));
+  std::string_view tail;
 }

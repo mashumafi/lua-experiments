@@ -14,7 +14,7 @@ class Statement {
  public:
   Statement(Database& db, std::string_view sql, std::string_view& tail);
 
-  int bindDouble(int index, double val);
+  int bind(int index, double val);
 
   int step();
 
