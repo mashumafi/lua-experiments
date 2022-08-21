@@ -10,14 +10,14 @@ config:
 		cmake -GNinja ..
 
 .PHONY: build
-build:
+build: config
 	cd ${BUILDDIR} && \
 		cmake --build . --config Debug -- -j10
 
 .PHONY: test
-test:
+test: build
 	cd ${BUILDDIR} && \
-		ctest -j10 -C Debug -T test --output-on-failure
+		ctest -j -C Debug -T test --output-on-failure
 
 .PHONY: clean
 clean:
