@@ -1,5 +1,7 @@
 #include <a_sqlite_statement.h>
 
+#include <stdexcept>
+
 #include <sqlite3.h>
 
 namespace a_sqlite {
